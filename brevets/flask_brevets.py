@@ -51,16 +51,18 @@ def _calc_times():
     described at https://rusa.org/octime_alg.html.
     Expects one URL-encoded argument, the number of miles.
     """
+    #Read in all data from JSON request
     app.logger.debug("Got a JSON request")
     km = request.args.get('km', 999, type=float)
+    start_time_str = request.args.get('start_time', type=str)
+    start_time = arrow.get(start_time_str, acp_times.TIME_FORMAT)
+
     app.logger.debug("km={}".format(km))
     app.logger.debug("request.args: {}".format(request.args))
-    # FIXME!
-    # Right now, only the current time is passed as the start time
-    # and control distance is fixed to 200
-    # You should get these from the webpage!
-    open_time = acp_times.open_time(km, 200, arrow.now().isoformat).format('YYYY-MM-DDTHH:mm')
-    close_time = acp_times.close_time(km, 200, arrow.now().isoformat).format('YYYY-MM-DDTHH:mm')
+
+    #Brevit distance isn't needed for the calculation so 'None' is passed instead
+    open_time = acp_times.open_time(km, None, start_time).format(acp_times.TIME_FORMAT)
+    close_time = acp_times.close_time(km, None, start_time).format(acp_times.TIME_FORMAT)
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 
