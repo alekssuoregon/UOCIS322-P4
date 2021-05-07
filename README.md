@@ -18,4 +18,4 @@ This part defines special cases not outlined in the rusa.org documentation and h
 
 2.) If the brevet control is on a boundary(200, 400, 600, 10000), then it will fall within the lower ranges ruleset.
 
-3.) In calcultions, hours are truncated and minutes are rounded up for the open and close times 
+3.) In calculations, hours are truncated and minutes are rounded up for the open and close times 
