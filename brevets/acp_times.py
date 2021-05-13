@@ -67,6 +67,8 @@ def _calculate_arrival(start_time, distance):
 
 
 def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
+    if control_dist_km > brevet_dist_km:
+        control_dist_km = brevet_dist_km
     arrival_time, _ = _calculate_arrival(brevet_start_time, control_dist_km)
     return arrival_time 
     
@@ -85,8 +87,14 @@ def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
 
 def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
     # Edge case where distance traveled is 0
-    if control_dist_km == 0:
-        return brevet_start_time.shift(hours=+1)
+    if control_dist_km <= 60:
+        km_per_min = 20 / 60
+        delta = (control_dist_km / km_per_min) + 60 
+        delta_hours = int(delta / 60)
+        delta_minutes = int(round(delta % 60, 0))
+        return brevet_start_time.shift(hours=+delta_hours, minutes=+delta_minutes)
+    if control_dist_km > brevet_dist_km:
+        control_dist_km = brevet_dist_km
     _, arrival_time = _calculate_arrival(brevet_start_time, control_dist_km) 
     return arrival_time 
 

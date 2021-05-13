@@ -52,6 +52,7 @@ def _calc_times():
     #Read in all data from JSON request
     app.logger.debug("Got a JSON request")
     km = request.args.get('km', 999, type=float)
+    brevet_dist = request.args.get('brevet_dist', type=int)
     start_time_str = request.args.get('start_time', type=str)
     start_time = arrow.get(start_time_str, acp_times.TIME_FORMAT)
 
@@ -59,8 +60,8 @@ def _calc_times():
     app.logger.debug("request.args: {}".format(request.args))
 
     #Brevit distance isn't needed for the calculation so 'None' is passed instead
-    open_time = acp_times.open_time(km, None, start_time).format(acp_times.TIME_FORMAT)
-    close_time = acp_times.close_time(km, None, start_time).format(acp_times.TIME_FORMAT)
+    open_time = acp_times.open_time(km, brevet_dist, start_time).format(acp_times.TIME_FORMAT)
+    close_time = acp_times.close_time(km, brevet_dist, start_time).format(acp_times.TIME_FORMAT)
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 
