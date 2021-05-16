@@ -14,7 +14,7 @@ Edge Cases:
 
 This part defines special cases not outlined in the rusa.org documentation and how it is handled here.
 
-1.) If the brevet control is at distance 0. Then the open time will be unchanged and the closed time will be +1 hour
+1.) If the brevet control is at distance 0-60. Then the open time will be unchanged and closed time will be calculated at 20km/hr + 1hr 
 
 2.) If the brevet control is on a boundary(200, 400, 600, 10000), then it will fall within the lower ranges ruleset.
 
